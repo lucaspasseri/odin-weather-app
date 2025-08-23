@@ -1,3 +1,46 @@
+:root {
+	--page-padding: 2em;
+	--theme-blue: #00809d;
+	--navbar-height: 8em;
+}
+
 body {
 	background-color: #fdfdfd;
+	margin: 0;
+	/* background-color: var(--theme-blue); */
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	height: 100%;
+}
+
+.navbar {
+	padding: 0 var(--page-padding);
+	background-color: var(--theme-blue);
+	height: var(--navbar-height);
+	display: flex;
+	align-items: center;
+
+	label {
+		margin-right: 0.2em;
+		font-size: 2em;
+	}
+
+	input {
+		font-size: 1.8em;
+		height: 1.4em;
+		color: var(--theme-blue);
+		width: 20em;
+		padding-left: 0.4em;
+	}
+}
+
+.contentContainer {
+	padding: 1em var(--page-padding);
+	background-color: #fcf8dd;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+
+	height: 100%;
 }

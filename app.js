@@ -2,25 +2,56 @@ function renderNavbar() {
 	const navbar = document.querySelector("#navbar");
 	navbar.className = "navbar";
 
+	const searchLabel = document.createElement("label");
+	searchLabel.htmlFor = "searchInput";
+	searchLabel.textContent = "Enter the desired location:";
+
 	const searchInput = document.createElement("input");
 	searchInput.id = "searchInput";
 	searchInput.type = "search";
+	searchInput.setAttribute("list", "locationSuggestionList");
+
+	searchInput.addEventListener("input", async e => {
+		const value = e.currentTarget.value;
+		console.log({ value, e });
+
+		const possibleLocations = await getLocationWithQuery(value);
+
+		console.log({ possibleLocations });
+
+		const list = document.querySelector("#locationSuggestionList");
+		list.innerHTML = "";
+
+		console.log({ list });
+
+		possibleLocations.forEach(location => {
+			const opt = document.createElement("option");
+			opt.value = `${location.name} - ${location.fullAddress}`;
+			list.appendChild(opt);
+		});
+	});
 
 	searchInput.addEventListener("change", async e => {
 		const value = e.currentTarget.value;
 		console.log({ value, e });
 
+		if (value.trim().length < 5) return;
 		const data = await getWeatherData(value);
+
 		renderContentContainer(data);
 	});
 
-	navbar.appendChild(searchInput);
+	const list = document.createElement("datalist");
+	list.id = "locationSuggestionList";
+
+	navbar.append(searchLabel, searchInput, list);
 }
 
 const basicUrl =
 	"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/[location]?key=NN7P4KNN357GTQRG7EKARYR6R";
 
 async function getWeatherData(location) {
+	if (location.trim().length < 5) return;
 	const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&key=NN7P4KNN357GTQRG7EKARYR6R&contentType=json`;
 	const data = await fetch(url).then(res => res.json());
 	console.log({ data });
@@ -48,6 +79,7 @@ async function getWeatherData(location) {
 
 async function renderContentContainer(data) {
 	const container = document.querySelector("#contentContainer");
+	container.className = "contentContainer";
 	container.innerHTML = "";
 
 	const h1 = document.createElement("h1");
@@ -67,8 +99,25 @@ async function renderContentContainer(data) {
 	const visibilityP = document.createElement("p");
 	const windSpeedP = document.createElement("p");
 
-	h1.textContent = "address: " + data.address;
-	h3.textContent = "resolvedAddress: " + data.resolvedAddress;
+	const generatedImage = document.createElement("img");
+	generatedImage.width = "300";
+	generatedImage.height = "300";
+	generatedImage.alt =
+		"Image generated with IA with current weather conditions.";
+
+	const query = `${data.resolvedAddress}_${data.icon}_${data.conditions}`;
+
+	const imageGeneratorUrl = `https://image.pollinations.ai/prompt/${query}`;
+
+	const res = await fetch(imageGeneratorUrl);
+	console.log({ res });
+	const blob = await res.blob();
+	const objectUrl = URL.createObjectURL(blob);
+
+	generatedImage.src = objectUrl;
+
+	h1.textContent = "Address: " + data.resolvedAddress;
+	h3.textContent = "Search for: " + data.address;
 	h4.textContent = "description: " + data.description;
 	cloudCoverP.textContent = "cloudCover: " + data.cloudCover;
 	conditionsP.textContent = "condition: " + data.conditions;
@@ -88,6 +137,7 @@ async function renderContentContainer(data) {
 		h1,
 		h3,
 		h4,
+		generatedImage,
 		cloudCoverP,
 		conditionsP,
 		feelsLikeMeanP,
@@ -113,6 +163,25 @@ async function init() {
 	} catch (err) {
 		console.error("Failed to fetch", err);
 	}
+}
+
+async function getLocationWithQuery(searchParameter) {
+	const query = searchParameter ? searchParameter : "";
+
+	const url = `https://api.mapbox.com/search/geocode/v6/forward?q=${query}&access_token=pk.eyJ1IjoibHVjYXNwYXNzZXJpIiwiYSI6ImNtZW5sdnE5bzEzcXIycm9od2hyOWgxam0ifQ.4c1-vOSslsToJ4ZO7CChUw`;
+	const res = await fetch(url);
+	const data = await res.json();
+
+	const preparedData = data.features.map(elem => {
+		return {
+			fullAddress: elem.properties.full_address,
+			name: elem.properties.name,
+			latitude: elem.properties.coordinates.latitude,
+			longitude: elem.properties.coordinates.longitude,
+		};
+	});
+	console.log({ preparedData });
+	return preparedData;
 }
 
 init();
