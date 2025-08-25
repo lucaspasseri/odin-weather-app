@@ -1,5 +1,6 @@
 export default async function getWeatherDataByLocation(location) {
 	if (location.trim().length < 5) return;
+
 	try {
 		const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&key=NN7P4KNN357GTQRG7EKARYR6R&contentType=json`;
 		const data = await fetch(url).then(res => res.json());

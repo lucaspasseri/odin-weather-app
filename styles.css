@@ -46,9 +46,10 @@ body {
 	display: flex;
 	flex-direction: column;
 	flex: 1;
-	/* backdrop-filter: blur(2em); */
 	height: 100%;
 	position: relative;
+	justify-content: center;
+	align-items: center;
 }
 
 .filter {
@@ -63,7 +64,26 @@ body {
 .content {
 	margin: var(--page-padding);
 	padding: 1em;
-	background-color: white;
 	border-radius: 1em;
 	opacity: 0.8;
+}
+
+.onLoading {
+	background-image: unset;
+}
+
+svg.lucide {
+	width: 32px;
+	height: 32px;
+	stroke: var(--theme-blue);
+	animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
