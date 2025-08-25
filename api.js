@@ -4,10 +4,14 @@ export default async function getWeatherDataByLocation(location) {
 		const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&key=NN7P4KNN357GTQRG7EKARYR6R&contentType=json`;
 		const data = await fetch(url).then(res => res.json());
 
+		console.log({ data });
+
 		const preparedData = {
 			address: data.address,
 			resolvedAddress: data.resolvedAddress,
 			description: data.description,
+			timezone: data.timezone,
+			datetimeEpoch: data.currentConditions.datetimeEpoch,
 			cloudCover: data.currentConditions.cloudcover,
 			conditions: data.currentConditions.conditions,
 			feelsLikeMean: data.currentConditions.feelslike,
@@ -22,7 +26,7 @@ export default async function getWeatherDataByLocation(location) {
 			visibility: data.currentConditions.visibility,
 			windSpeed: data.currentConditions.windspeed,
 		};
-
+		console.log({ preparedData });
 		return preparedData;
 	} catch (e) {
 		console.error(`${e.name}: ${e.message}`);

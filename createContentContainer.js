@@ -17,6 +17,8 @@ export default async function createContentContainer(data) {
 		return;
 	}
 
+	const currentTimeH5 = document.createElement("h5");
+	const dataTimeH5 = document.createElement("h5");
 	const cloudCoverP = document.createElement("p");
 	const conditionsP = document.createElement("p");
 	const feelsLikeMeanP = document.createElement("p");
@@ -31,19 +33,28 @@ export default async function createContentContainer(data) {
 	const visibilityP = document.createElement("p");
 	const windSpeedP = document.createElement("p");
 
-	const generatedImage = document.createElement("img");
-	generatedImage.width = "500";
-	generatedImage.height = "500";
-	generatedImage.alt =
-		"Image generated with IA with current weather conditions.";
-
 	const src = await getImageSrcByWeatherData(data);
 
-	generatedImage.src = src;
+	container.style.backgroundImage = `url(${src})`;
+	container.style.backgroundSize = "cover";
+	container.style.backgroundPosition = "center";
 
 	h1.textContent = data.resolvedAddress;
 	h3.textContent = data.address;
 	h4.textContent = data.description;
+
+	const forecastDate = new Date(data.datetimeEpoch * 1000);
+	const currentDate = new Date().toLocaleString("en-US", {
+		timeZone: data.timezone,
+	});
+
+	currentTimeH5.textContent = "Current Local Date: " + currentDate;
+
+	dataTimeH5.textContent =
+		"Forecast Date: " +
+		forecastDate.toLocaleString("en-US", {
+			timeZone: data.timezone,
+		});
 
 	cloudCoverP.textContent = "cloudCover: " + data.cloudCover;
 	conditionsP.textContent = "condition: " + data.conditions;
@@ -59,11 +70,15 @@ export default async function createContentContainer(data) {
 	visibilityP.textContent = "visibility: " + data.visibility;
 	windSpeedP.textContent = "windSpeed: " + data.windSpeed;
 
-	container.append(
+	const content = document.createElement("div");
+	content.className = "content";
+
+	content.append(
 		h1,
 		h3,
 		h4,
-		generatedImage,
+		currentTimeH5,
+		dataTimeH5,
 		cloudCoverP,
 		conditionsP,
 		feelsLikeMeanP,
@@ -78,4 +93,10 @@ export default async function createContentContainer(data) {
 		visibilityP,
 		windSpeedP
 	);
+
+	const containerFilter = document.createElement("div");
+	containerFilter.className = "filter";
+	containerFilter.appendChild(content);
+
+	container.appendChild(containerFilter);
 }

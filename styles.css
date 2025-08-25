@@ -4,6 +4,12 @@
 	--navbar-height: 8em;
 }
 
+html {
+	display: flex;
+	flex: 1;
+	min-height: 100%;
+}
+
 body {
 	background-color: #fdfdfd;
 	margin: 0;
@@ -11,7 +17,6 @@ body {
 	display: flex;
 	flex-direction: column;
 	flex: 1;
-	height: 100%;
 }
 
 .navbar {
@@ -41,6 +46,24 @@ body {
 	display: flex;
 	flex-direction: column;
 	flex: 1;
-
+	/* backdrop-filter: blur(2em); */
 	height: 100%;
+	position: relative;
+}
+
+.filter {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	backdrop-filter: blur(4px);
+}
+
+.content {
+	margin: var(--page-padding);
+	padding: 1em;
+	background-color: white;
+	border-radius: 1em;
+	opacity: 0.8;
 }
