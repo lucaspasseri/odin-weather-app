@@ -2,13 +2,15 @@ import { getImageSrcByWeatherData } from "./api.js";
 import createContentOnError from "./createContentOnError.js";
 import createContentOnLoading from "./createContentOnLoading.js";
 import createContentOnSuccess from "./createContentOnSuccess.js";
-import { getLoading, setLoading } from "./state.js";
+import { getLoading, setLoading, getWeatherData } from "./state.js";
 
-export default async function createContentContainer(data) {
+export default async function createContentContainer() {
 	if (getLoading()) {
 		createContentOnLoading();
 		return;
 	}
+
+	const data = getWeatherData();
 
 	if (data === undefined) {
 		createContentOnError();

@@ -1,11 +1,17 @@
-export default async function getWeatherDataByLocation(location) {
-	if (location.trim().length < 5) return;
+import {
+	getUnitGroup,
+	getLocation,
+	setLocation,
+	getWeatherData,
+	setWeatherData,
+} from "./state.js";
+
+export default async function getWeatherDataByLocation() {
+	if (getLocation().trim().length < 5) return;
 
 	try {
-		const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&key=NN7P4KNN357GTQRG7EKARYR6R&contentType=json`;
+		const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${getLocation()}?unitGroup=${getUnitGroup()}&key=NN7P4KNN357GTQRG7EKARYR6R&contentType=json`;
 		const data = await fetch(url).then(res => res.json());
-
-		console.log({ data });
 
 		const preparedData = {
 			address: data.address,
@@ -27,39 +33,8 @@ export default async function getWeatherDataByLocation(location) {
 			visibility: data.currentConditions.visibility,
 			windSpeed: data.currentConditions.windspeed,
 		};
-		console.log({ preparedData });
-		return preparedData;
-	} catch (e) {
-		console.error(`${e.name}: ${e.message}`);
-	}
-}
 
-export async function getWeatherDataByCoordinates(latitude, longitude) {
-	if (typeof latitude !== "number" || typeof longitude !== "number") return;
-	try {
-		const url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${latitude}%2C${longitude}?unitGroup=metric&key=NN7P4KNN357GTQRG7EKARYR6R&contentType=json`;
-		const data = await fetch(url).then(res => res.json());
-
-		const preparedData = {
-			address: data.address,
-			resolvedAddress: data.resolvedAddress,
-			description: data.description,
-			cloudCover: data.currentConditions.cloudcover,
-			conditions: data.currentConditions.conditions,
-			feelsLikeMean: data.currentConditions.feelslike,
-			humidity: data.currentConditions.humidity,
-			icon: data.currentConditions.icon,
-			moonPhase: data.currentConditions.moonphase,
-			precipitation: data.currentConditions.precip,
-			pressure: data.currentConditions.pressure,
-			source: data.currentConditions.source,
-			temp: data.currentConditions.temp,
-			uvIndex: data.currentConditions.uvindex,
-			visibility: data.currentConditions.visibility,
-			windSpeed: data.currentConditions.windspeed,
-		};
-
-		return preparedData;
+		setWeatherData(preparedData);
 	} catch (e) {
 		console.error(`${e.name}: ${e.message}`);
 	}
@@ -98,13 +73,15 @@ export async function getLocationNameByCoordinates(latitude, longitude) {
 			loc => loc.properties.feature_type === "place"
 		)[0];
 
-		return place.properties.name;
+		setLocation(place.properties.name);
 	} catch (e) {
 		console.error(`${e.name}: ${e.message}`);
 	}
 }
 
-export async function getImageSrcByWeatherData(data) {
+export async function getImageSrcByWeatherData() {
+	const data = getWeatherData();
+
 	try {
 		const query = `${data.resolvedAddress}_${data.icon}_${data.conditions}`;
 		const imageGeneratorUrl = `https://image.pollinations.ai/prompt/${query}`;

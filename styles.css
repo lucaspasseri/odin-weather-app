@@ -13,7 +13,6 @@ html {
 body {
 	background-color: #fdfdfd;
 	margin: 0;
-	/* background-color: var(--theme-blue); */
 	display: flex;
 	flex-direction: column;
 	flex: 1;
@@ -37,6 +36,7 @@ body {
 		color: var(--theme-blue);
 		width: 20em;
 		padding-left: 0.4em;
+		border-radius: 0.2em;
 	}
 }
 
@@ -65,6 +65,7 @@ body {
 	margin: var(--page-padding);
 	padding: 1em;
 	border-radius: 1em;
+	background-color: white;
 	opacity: 0.8;
 }
 
@@ -73,8 +74,8 @@ body {
 }
 
 svg.lucide {
-	width: 32px;
-	height: 32px;
+	width: 4em;
+	height: 4em;
 	stroke: var(--theme-blue);
 	animation: rotate 2s linear infinite;
 }

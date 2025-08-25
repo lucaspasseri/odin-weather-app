@@ -6,27 +6,21 @@ import createContentContainer from "./createContentContainer.js";
 import { setLoading } from "./state.js";
 
 async function init() {
-	let weatherData;
 	navigator.geolocation.getCurrentPosition(
 		async position => {
 			setLoading(true);
-			createContentContainer(weatherData);
+			createContentContainer();
 
 			const { latitude, longitude } = position.coords;
-
-			const locationName = await getLocationNameByCoordinates(
-				latitude,
-				longitude
-			);
-			weatherData = await getWeatherDataByLocation(locationName);
-
+			await getLocationNameByCoordinates(latitude, longitude);
+			await getWeatherDataByLocation();
 			setLoading(false);
-			createContentContainer(weatherData);
+			createContentContainer();
 		},
 		e => {
 			console.error(`${e.name}: ${e.message}`);
 			setLoading(false);
-			createContentContainer(weatherData);
+			createContentContainer();
 		}
 	);
 

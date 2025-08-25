@@ -1,5 +1,11 @@
-import getWeatherData, { getLocationBySearchQuery } from "./api.js";
+import getWeatherDataByLocation, { getLocationBySearchQuery } from "./api.js";
 import createContentContainer from "./createContentContainer.js";
+import {
+	setLoading,
+	setLocation,
+	setWeatherData,
+	toggleUnitGroup,
+} from "./state.js";
 
 export default function createNavbar() {
 	const navbar = document.querySelector("#navbar");
@@ -33,13 +39,27 @@ export default function createNavbar() {
 		const value = e.currentTarget.value;
 
 		if (value.trim().length < 5) return;
-		const data = await getWeatherData(value);
-
-		createContentContainer(data);
+		setLocation(value);
+		setLoading(true);
+		createContentContainer();
+		await getWeatherDataByLocation();
+		setLoading(false);
+		createContentContainer();
 	});
 
 	const list = document.createElement("datalist");
 	list.id = "locationSuggestionList";
 
-	navbar.append(searchLabel, searchInput, list);
+	const metricSystemButton = document.createElement("button");
+	metricSystemButton.textContent = "Sys1/Sys2";
+	metricSystemButton.addEventListener("click", async () => {
+		toggleUnitGroup();
+		setLoading(true);
+		createContentContainer();
+		await getWeatherDataByLocation();
+		setLoading(false);
+		createContentContainer();
+	});
+
+	navbar.append(searchLabel, searchInput, list, metricSystemButton);
 }

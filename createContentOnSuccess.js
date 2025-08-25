@@ -35,7 +35,6 @@ export default function createContentOnSuccess(data, backgroundImageSrc) {
 	container.style.backgroundPosition = "center";
 
 	h1.textContent = data.resolvedAddress;
-	h3.textContent = data.address;
 	h4.textContent = data.description;
 
 	const forecastDate = new Date(data.datetimeEpoch * 1000);
@@ -70,7 +69,6 @@ export default function createContentOnSuccess(data, backgroundImageSrc) {
 
 	content.append(
 		h1,
-		h3,
 		h4,
 		currentTimeH5,
 		dataTimeH5,
