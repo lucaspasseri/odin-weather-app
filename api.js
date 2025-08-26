@@ -6,7 +6,7 @@ import {
 	setWeatherData,
 } from "./state.js";
 
-export default async function getWeatherDataByLocation() {
+export async function getWeatherDataByLocation() {
 	if (getLocation().trim().length < 5) return;
 
 	try {

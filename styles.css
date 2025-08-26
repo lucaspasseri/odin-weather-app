@@ -1,7 +1,41 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		interpolate-size: allow-keywords;
+	}
+}
+body {
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
 :root {
 	--page-padding: 2em;
 	--theme-blue: #00809d;
 	--navbar-height: 8em;
+	--logo-size: 100%;
+	--brand-size: 4.4em;
+}
+
+@media (max-width: 500px) {
+	:root {
+		--page-padding: 0em;
+		--logo-size: 80%;
+		--brand-size: 3.2em;
+	}
+}
+
+@font-face {
+	font-family: "shine_flower_regular";
+	src: url("./fonts/shine_flower/shine_flower-webfont.woff2") format("woff2"),
+		url("./fonts/shine_flower/shine_flower-webfont.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
 }
 
 html {
@@ -24,6 +58,20 @@ body {
 	height: var(--navbar-height);
 	display: flex;
 	align-items: center;
+	justify-content: center;
+	align-items: center;
+
+	img {
+		height: var(--logo-size);
+		width: auto;
+	}
+
+	h1 {
+		font-size: var(--brand-size);
+		font-family: "shine_flower_regular";
+		letter-spacing: 0.04em;
+		margin: 0;
+	}
 
 	label {
 		margin-right: 0.2em;
@@ -37,6 +85,57 @@ body {
 		width: 20em;
 		padding-left: 0.4em;
 		border-radius: 0.2em;
+	}
+}
+
+.locationContainer {
+	background-color: var(--theme-blue);
+	padding: 0 0 1em;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 0.5em;
+}
+
+.locationDialogContainer {
+	dialog {
+		border: 0.4em solid white;
+		border-radius: 0.4em;
+		background-color: var(--theme-blue);
+
+		h3,
+		h5 {
+			margin: 0;
+			display: flex;
+			align-items: center;
+			gap: 0.2em;
+			flex-wrap: wrap;
+		}
+
+		h3 {
+			font-size: 1.6em;
+		}
+
+		h5 {
+			font-size: 1.25em;
+			margin-top: 2em;
+		}
+
+		span:nth-of-type(2) {
+			font-family: "shine_flower_regular";
+			font-size: 1.6em;
+		}
+
+		.buttonsContainer {
+			margin-top: 0.4em;
+			display: flex;
+			gap: 0.6em;
+			button {
+				font-size: 1.2em;
+				padding: 0.4em;
+				border-radius: 0.2em;
+			}
+		}
 	}
 }
 
