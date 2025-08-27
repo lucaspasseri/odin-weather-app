@@ -10,8 +10,10 @@ export default function createContentOnSuccess(data, backgroundImageSrc) {
 	container.className = "contentContainer";
 	container.innerHTML = "";
 
+	container.style.backgroundImage = `url(${backgroundImageSrc})`;
+	// container.style.backgroundSize = "cover";
+	// container.style.backgroundPosition = "center";
 	const h1 = document.createElement("h1");
-	const h3 = document.createElement("h3");
 	const h4 = document.createElement("h4");
 
 	const currentTimeH5 = document.createElement("h5");
@@ -29,10 +31,6 @@ export default function createContentOnSuccess(data, backgroundImageSrc) {
 	const uvIndexP = document.createElement("p");
 	const visibilityP = document.createElement("p");
 	const windSpeedP = document.createElement("p");
-
-	container.style.backgroundImage = `url(${backgroundImageSrc})`;
-	container.style.backgroundSize = "cover";
-	container.style.backgroundPosition = "center";
 
 	h1.textContent = data.resolvedAddress;
 	h4.textContent = data.description;

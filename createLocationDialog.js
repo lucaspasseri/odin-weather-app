@@ -13,9 +13,9 @@ export default function createLocationDialog() {
 	dialog.setAttribute("closedby", "any");
 	const h3 = document.createElement("h3");
 	const span1 = document.createElement("span");
-	span1.textContent = "WElCOME TO";
+	span1.textContent = "Wellcome to";
 	const span2 = document.createElement("span");
-	span2.textContent = "NUMBRELLA!";
+	span2.textContent = "Numbrella!";
 
 	h3.append(span1, span2);
 

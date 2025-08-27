@@ -41,6 +41,8 @@ export async function getWeatherDataByLocation() {
 }
 
 export async function getLocationBySearchQuery(searchQuery) {
+	console.log({ searchQuery });
+
 	try {
 		const query = searchQuery ? searchQuery : "";
 		const url = `https://api.mapbox.com/search/geocode/v6/forward?q=${query}&access_token=pk.eyJ1IjoibHVjYXNwYXNzZXJpIiwiYSI6ImNtZW5sdnE5bzEzcXIycm9od2hyOWgxam0ifQ.4c1-vOSslsToJ4ZO7CChUw`;

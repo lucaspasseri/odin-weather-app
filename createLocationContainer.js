@@ -8,7 +8,7 @@ export default function createLocationContainer() {
 
 	const searchLabel = document.createElement("label");
 	searchLabel.htmlFor = "searchInput";
-	searchLabel.textContent = "Enter the desired location:";
+	searchLabel.textContent = "Location:";
 
 	const searchInput = document.createElement("input");
 	searchInput.id = "searchInput";
@@ -19,6 +19,7 @@ export default function createLocationContainer() {
 		const value = e.currentTarget.value;
 
 		const possibleLocations = await getLocationBySearchQuery(value);
+		console.log({ possibleLocations });
 
 		const list = document.querySelector("#locationSuggestionList");
 		list.innerHTML = "";
@@ -46,7 +47,15 @@ export default function createLocationContainer() {
 	list.id = "locationSuggestionList";
 
 	const metricSystemButton = document.createElement("button");
-	metricSystemButton.textContent = "Sys1/Sys2";
+
+	const celsiusFahrenheitIcon = document.createElement("img");
+	celsiusFahrenheitIcon.alt = "Celsius vc Fahrenheit";
+	celsiusFahrenheitIcon.src = "./imgs/try2.png";
+	celsiusFahrenheitIcon.height = 60;
+	celsiusFahrenheitIcon.width = 60;
+
+	metricSystemButton.appendChild(celsiusFahrenheitIcon);
+
 	metricSystemButton.addEventListener("click", async () => {
 		toggleUnitGroup();
 		setLoading(true);
@@ -56,8 +65,12 @@ export default function createLocationContainer() {
 		createContentContainer();
 	});
 
+	const icon = document.createElement("i");
+	icon.setAttribute("data-lucide", "map-pin-house");
+	icon.className = "locationIcon";
+
 	const locationDialogButton = document.createElement("button");
-	locationDialogButton.textContent = "Use your Location";
+	locationDialogButton.appendChild(icon);
 
 	locationDialogButton.addEventListener("click", () => {
 		const dialog = document.querySelector("#locationDialogContainer dialog");
@@ -72,5 +85,5 @@ export default function createLocationContainer() {
 		metricSystemButton
 	);
 
-	return container;
+	lucide.createIcons();
 }

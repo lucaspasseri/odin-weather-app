@@ -6,6 +6,7 @@ export default function createContentOnLoading() {
 
 	const icon = document.createElement("i");
 	icon.setAttribute("data-lucide", "loader-pinwheel");
+	icon.className = "loadingIcon";
 
 	const div = document.createElement("div");
 	div.appendChild(icon);
