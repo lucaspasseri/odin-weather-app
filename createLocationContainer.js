@@ -19,7 +19,6 @@ export default function createLocationContainer() {
 		const value = e.currentTarget.value;
 
 		const possibleLocations = await getLocationBySearchQuery(value);
-		console.log({ possibleLocations });
 
 		const list = document.querySelector("#locationSuggestionList");
 		list.innerHTML = "";

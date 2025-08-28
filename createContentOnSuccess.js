@@ -1,4 +1,5 @@
 import createContentOnLoading from "./createContentOnLoading.js";
+import { getUnitGroup } from "./state.js";
 
 export default function createContentOnSuccess(data, backgroundImageSrc) {
 	if (backgroundImageSrc === undefined) {
@@ -13,9 +14,10 @@ export default function createContentOnSuccess(data, backgroundImageSrc) {
 	container.style.backgroundImage = `url(${backgroundImageSrc})`;
 	const h1 = document.createElement("h1");
 	const h4 = document.createElement("h4");
-
 	const currentTimeH5 = document.createElement("h5");
 	const dataTimeH5 = document.createElement("h5");
+	const timeZoneH5 = document.createElement("h5");
+
 	const cloudCoverP = document.createElement("p");
 	const conditionsP = document.createElement("p");
 	const feelsLikeMeanP = document.createElement("p");
@@ -46,19 +48,73 @@ export default function createContentOnSuccess(data, backgroundImageSrc) {
 			timeZone: data.timezone,
 		});
 
-	cloudCoverP.textContent = "cloudCover: " + data.cloudCover;
-	conditionsP.textContent = "condition: " + data.conditions;
-	feelsLikeMeanP.textContent = "feelsLikeMean: " + data.feelsLikeMean;
-	humidityP.textContent = "humidity: " + data.humidity;
+	timeZoneH5.textContent = "Timezone: " + data.timezone;
+	conditionsP.textContent = "Condition: " + data.conditions;
 	iconP.textContent = "icon: " + data.icon;
-	moonPhaseP.textContent = "moonPhase: " + data.moonPhase;
-	precipitationP.textContent = "precipitation: " + data.precipitation;
-	pressureP.textContent = "pressure: " + data.pressure;
-	sourceP.textContent = "source: " + data.source;
-	tempP.textContent = "temp: " + data.temp;
-	uvIndexP.textContent = "uvIndex: " + data.uvIndex;
-	visibilityP.textContent = "visibility: " + data.visibility;
-	windSpeedP.textContent = "windSpeed: " + data.windSpeed;
+	cloudCoverP.textContent = `Cloud cover: ${data.cloudCover}%`;
+	tempP.textContent = `Temperatura (mean): ${data.temp}${
+		getUnitGroup() === "metric" ? "°C" : "°F"
+	}`;
+	feelsLikeMeanP.textContent = `Feels like(mean): ${data.feelsLikeMean}${
+		getUnitGroup() === "metric" ? "°C" : "°F"
+	}`;
+	humidityP.textContent = `Humidity: ${data.humidity}%`;
+
+	precipitationP.textContent = `Precipitation: ${data.precipitation}${
+		getUnitGroup() === "metric" ? "(mm)" : "Inches"
+	}`;
+	pressureP.textContent = `Pressure: ${data.pressure}(mb)`;
+	uvIndexP.textContent = "UV index: " + data.uvIndex;
+	visibilityP.textContent = `Visibility: ${data.visibility}${
+		getUnitGroup() === "metric" ? "km" : "Miles"
+	}`;
+	windSpeedP.textContent = `Windspeed: ${data.windSpeed}${
+		getUnitGroup() === "metric" ? "km/h" : "mph"
+	}`;
+
+	function mappingMoonPhase(value) {
+		if (value === 0 || value === 1) return "🌑 New Moon";
+		if (value < 0.25) {
+			return "🌒 Waxing Crescent";
+		}
+		if (value === 0.25) {
+			return "🌓 First Quarter";
+		}
+		if (value < 0.5) {
+			return "🌔 Waxing Gibbous";
+		}
+		if (value === 0.5) {
+			return "🌕 Full Moon";
+		}
+		if (value < 0.75) {
+			return "🌖 Waning Gibbous";
+		}
+		if (value === 0.75) {
+			return "🌗 Last Quarter";
+		}
+		if (value < 1) {
+			return "🌘 Waning Crescent";
+		}
+	}
+
+	moonPhaseP.textContent = "Moon phase: " + mappingMoonPhase(data.moonPhase);
+
+	function mapSource(value) {
+		switch (value) {
+			case "obs":
+				return "Observed at a local weather station";
+			case "fcst":
+				return "Forecast data";
+			case "hist":
+				return "Historical weather data";
+			case "comb":
+				return "“Blended data (observed & forecast)";
+			default:
+				return "";
+		}
+	}
+
+	sourceP.textContent = `Source: ${mapSource(data.source)}`;
 
 	const content = document.createElement("div");
 	content.className = "content";
@@ -68,24 +124,21 @@ export default function createContentOnSuccess(data, backgroundImageSrc) {
 		h4,
 		currentTimeH5,
 		dataTimeH5,
-		cloudCoverP,
+		timeZoneH5,
 		conditionsP,
+		iconP,
+		cloudCoverP,
+		tempP,
 		feelsLikeMeanP,
 		humidityP,
-		iconP,
-		moonPhaseP,
 		precipitationP,
 		pressureP,
-		sourceP,
-		tempP,
 		uvIndexP,
 		visibilityP,
-		windSpeedP
+		windSpeedP,
+		moonPhaseP,
+		sourceP
 	);
 
-	const containerFilter = document.createElement("div");
-	containerFilter.className = "filter";
-	containerFilter.appendChild(content);
-
-	container.appendChild(containerFilter);
+	container.appendChild(content);
 }
