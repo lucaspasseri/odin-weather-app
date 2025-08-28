@@ -11,8 +11,6 @@ export default function createContentOnSuccess(data, backgroundImageSrc) {
 	container.innerHTML = "";
 
 	container.style.backgroundImage = `url(${backgroundImageSrc})`;
-	// container.style.backgroundSize = "cover";
-	// container.style.backgroundPosition = "center";
 	const h1 = document.createElement("h1");
 	const h4 = document.createElement("h4");
 

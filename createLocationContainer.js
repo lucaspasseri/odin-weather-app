@@ -51,8 +51,8 @@ export default function createLocationContainer() {
 	const celsiusFahrenheitIcon = document.createElement("img");
 	celsiusFahrenheitIcon.alt = "Celsius vc Fahrenheit";
 	celsiusFahrenheitIcon.src = "./imgs/try2.png";
-	celsiusFahrenheitIcon.height = 60;
-	celsiusFahrenheitIcon.width = 60;
+	celsiusFahrenheitIcon.height = 55;
+	celsiusFahrenheitIcon.width = 55;
 
 	metricSystemButton.appendChild(celsiusFahrenheitIcon);
 
