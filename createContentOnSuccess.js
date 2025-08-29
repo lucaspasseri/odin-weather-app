@@ -85,10 +85,10 @@ export default function createContentOnSuccess(data, backgroundImageSrc) {
 
 	iconP.textContent = "Condition: " + mappingIcon(data.icon);
 
-	conditionsP.textContent = "Adicional description: " + data.conditions;
+	conditionsP.textContent = "Additional description: " + data.conditions;
 
 	cloudCoverP.textContent = `Cloud cover: ${data.cloudCover}%`;
-	tempP.textContent = `Temperatura (mean): ${data.temp}${
+	tempP.textContent = `Temperature (mean): ${data.temp}${
 		getUnitGroup() === "metric" ? "°C" : "°F"
 	}`;
 	feelsLikeMeanP.textContent = `Feels like(mean): ${data.feelsLikeMean}${
