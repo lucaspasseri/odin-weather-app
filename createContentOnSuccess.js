@@ -49,8 +49,44 @@ export default function createContentOnSuccess(data, backgroundImageSrc) {
 		});
 
 	timeZoneH5.textContent = "Timezone: " + data.timezone;
-	conditionsP.textContent = "Condition: " + data.conditions;
-	iconP.textContent = "icon: " + data.icon;
+
+	function mappingIcon(value) {
+		switch (value) {
+			case "clear-day":
+				return "☀️ Clear (day)";
+			case "clear-night":
+				return "🌙 Clear (night)";
+			case "partly-cloudy-day":
+				return "🌤️ Partially  cloudy (day)";
+			case "partly-cloudy-night":
+				return "🌥️ Partially  cloudy (night)";
+			case "cloudy":
+				return "☁️ Cloudy";
+			case "rain":
+				return "🌧️ Rain";
+			case "snow":
+				return "❄️ Snow";
+			case "sleet":
+				return "🌨️ Sleet";
+			case "freezing-rain":
+				return "🌧️❄️ Freezing rain";
+			case "ice":
+				return "🧊 Icy";
+			case "thunderstorm":
+				return "⛈️ Thunderstorm";
+			case "wind":
+				return "💨 Windy";
+			case "fog":
+				return "🌫️ Fog";
+			default:
+				return "";
+		}
+	}
+
+	iconP.textContent = "Condition: " + mappingIcon(data.icon);
+
+	conditionsP.textContent = "Adicional description: " + data.conditions;
+
 	cloudCoverP.textContent = `Cloud cover: ${data.cloudCover}%`;
 	tempP.textContent = `Temperatura (mean): ${data.temp}${
 		getUnitGroup() === "metric" ? "°C" : "°F"
@@ -102,15 +138,15 @@ export default function createContentOnSuccess(data, backgroundImageSrc) {
 	function mapSource(value) {
 		switch (value) {
 			case "obs":
-				return "Observed at a local weather station";
+				return "Observed at a local weather station. (visualcrossing - weather api)";
 			case "fcst":
-				return "Forecast data";
+				return "Forecast data. (visualcrossing - weather api)";
 			case "hist":
-				return "Historical weather data";
+				return "Historical weather data. (visualcrossing - weather api)";
 			case "comb":
-				return "“Blended data (observed & forecast)";
+				return "“Blended data (observed & forecast). (visualcrossing - weather api)";
 			default:
-				return "";
+				return "visualcrossing - weather api";
 		}
 	}
 
@@ -125,8 +161,8 @@ export default function createContentOnSuccess(data, backgroundImageSrc) {
 		currentTimeH5,
 		dataTimeH5,
 		timeZoneH5,
-		conditionsP,
 		iconP,
+		conditionsP,
 		cloudCoverP,
 		tempP,
 		feelsLikeMeanP,

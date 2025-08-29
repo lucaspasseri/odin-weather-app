@@ -1,4 +1,4 @@
-# Odin Weather App or Just Numbrella
+# Odin Weather App or just Numbrella
 
 I am improving my skills as a web developer, learning Fullstack Javascript with [TOP](https://www.theodinproject.com/lessons/node-path-javascript-weather-app)
 
